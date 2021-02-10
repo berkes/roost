@@ -7,7 +7,7 @@ class SessionStartCommandTest < Minitest::Spec
   let(:projection) { Minitest::Mock.new }
   let(:params) do
     Sinatra::IndifferentHash.new.merge(
-      { handle: Handle.new('hpotter').to_s, password: 'caput draconis' }
+      { handle: Handle.new('hpotter'), password: 'caput draconis' }
     )
   end
   let(:member) { nil }

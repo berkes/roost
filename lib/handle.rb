@@ -16,21 +16,39 @@ class Handle
   end
 
   def self.parse(handle)
+    return handle.dup if handle.is_a?(Handle)
+
     uri = URI.parse("http://#{handle.gsub(/^@/, '')}")
     new(uri.user, uri.host)
   end
 
   def to_s
-    return '' if username.to_s.empty?
+    return '' if empty?
 
     "@#{username}@#{domain}"
   end
 
-  def local?
-    domain == @local_domain
+  def to_str
+    to_s
+  end
+
+  ##
+  # Sequel extension allows us to pass Handles directly into its API.
+  def sql_literal(_dataset)
+    "'#{self}'"
+  end
+
+  def remote?
+    domain != @local_domain
+  end
+
+  def empty?
+    username.to_s.empty?
   end
 
   def ==(other)
+    other = Handle.parse(other) unless other.respond_to?(:username)
+
     username == other.username && domain == other.domain
   end
 end

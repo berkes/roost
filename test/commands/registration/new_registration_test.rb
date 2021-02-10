@@ -49,7 +49,7 @@ class NewRegistrationCommandTest < Minitest::Spec
     let(:valid_params) do
       Sinatra::IndifferentHash.new.merge(
         email: 'harry@example.com',
-        handle: Handle.new('hpotter').to_s,
+        handle: Handle.new('hpotter'),
         password: 'caput draconis'
       )
     end
